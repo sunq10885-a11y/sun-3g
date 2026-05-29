@@ -1,7 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import vitePluginMpa from 'vite-plugin-mpa'
 
-// https://vite.dev/config/
+const mpa = vitePluginMpa.default ?? vitePluginMpa
+
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    mpa({
+      open: '/',
+    }),
+  ],
 })
