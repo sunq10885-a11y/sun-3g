@@ -1,9 +1,9 @@
-import { getProductById } from '../../data/products.js'
+import { getProductById } from '../../data/products'
 
 function App() {
   const params = new URLSearchParams(window.location.search)
   const id = params.get('id')
-  const product = id ? getProductById(id) : null
+  const product = id ? getProductById(id) : undefined
 
   return (
     <main className="page">
@@ -14,7 +14,9 @@ function App() {
       {product ? (
         <article className="detail-card">
           <h2>{product.name}</h2>
-          <p className="meta">编号 {product.id} · {product.price}</p>
+          <p className="meta">
+            编号 {product.id} · {product.price}
+          </p>
           <p className="desc">{product.description}</p>
         </article>
       ) : (

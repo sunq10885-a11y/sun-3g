@@ -1,0 +1,16 @@
+// 全局 SCSS 变量（各页面通过 @use 引入）
+$color-text: #4b5563;
+$color-text-h: #111827;
+$color-bg: #f9fafb;
+$color-card: #ffffff;
+$color-border: #e5e7eb;
+$color-accent: #2563eb;
+$color-accent-hover: #1d4ed8;
+$color-muted: #6b7280;
+$color-empty: #9ca3af;
+
+$font-sans: system-ui, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+
+$radius-sm: 6px;
+$radius-md: 10px;
+$page-max-width: 720px;
