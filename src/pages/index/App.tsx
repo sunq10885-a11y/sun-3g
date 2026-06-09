@@ -1,64 +1,10 @@
-interface CalendarDay {
-  day: number | ''
-  empty?: boolean
-  sick?: boolean
-  rangeStart?: boolean
-  rangeEnd?: boolean
-}
-
-type StatusClass = 'warn' | 'good'
-
-interface DailyRecord {
-  date: string
-  temp: string
-  tempClass: StatusClass
-  summary: string
-  summaryClass: StatusClass
-  symptoms: string
-  medicine: string
-  note: string
-}
-
-const calendarDays: CalendarDay[] = [
-  { day: '', empty: true },
-  { day: '', empty: true },
-  { day: '', empty: true },
-  { day: 1, sick: true, rangeStart: true },
-  { day: 2, sick: true },
-  { day: 3, sick: true, rangeEnd: true },
-  { day: 4 },
-  { day: 5 },
-  { day: 6 },
-  { day: 7 },
-  { day: 8 },
-  { day: 9 },
-  { day: 10 },
-  { day: 11 },
-  { day: 12 },
-  { day: 13 },
-  { day: 14 },
-  { day: 15 },
-  { day: 16 },
-  { day: 17 },
-  { day: 18 },
-  { day: 19 },
-  { day: 20 },
-  { day: 21 },
-  { day: 22 },
-  { day: 23 },
-  { day: 24 },
-  { day: 25 },
-  { day: 26 },
-  { day: 27 },
-  { day: 28 },
-  { day: 29 },
-  { day: 30 },
-  { day: 31 },
-]
+import { CalendarCard } from './components/CalendarCard'
+import type { DailyRecord } from './types'
+import { formatRecordDate } from './utils/date'
 
 const dailyRecords: DailyRecord[] = [
   {
-    date: '5月1日 周三',
+    date: '20260501',
     temp: '37.8°C',
     tempClass: 'warn',
     summary: '一般',
@@ -68,7 +14,7 @@ const dailyRecords: DailyRecord[] = [
     note: '晚上咳嗽多，精神一般',
   },
   {
-    date: '5月2日 周四',
+    date: '20260502',
     temp: '37.2°C',
     tempClass: 'warn',
     summary: '好转',
@@ -78,7 +24,57 @@ const dailyRecords: DailyRecord[] = [
     note: '食欲一般',
   },
   {
-    date: '5月3日 周五',
+    date: '20260503',
+    temp: '36.6°C',
+    tempClass: 'good',
+    summary: '已好转',
+    summaryClass: 'good',
+    symptoms: '流鼻涕',
+    medicine: '—',
+    note: '精神好，食欲正常',
+  },
+  {
+    date: '20260504',
+    temp: '36.6°C',
+    tempClass: 'good',
+    summary: '已好转',
+    summaryClass: 'good',
+    symptoms: '流鼻涕',
+    medicine: '—',
+    note: '精神好，食欲正常',
+  },
+  {
+    date: '20260505',
+    temp: '36.6°C',
+    tempClass: 'good',
+    summary: '已好转',
+    summaryClass: 'good',
+    symptoms: '流鼻涕',
+    medicine: '—',
+    note: '精神好，食欲正常',
+  },
+  {
+    date: '20260506',
+    temp: '36.6°C',
+    tempClass: 'good',
+    summary: '已好转',
+    summaryClass: 'good',
+    symptoms: '流鼻涕',
+    medicine: '—',
+    note: '精神好，食欲正常',
+  },
+  {
+    date: '20260507',
+    temp: '36.6°C',
+    tempClass: 'good',
+    summary: '已好转',
+    summaryClass: 'good',
+    symptoms: '流鼻涕',
+    medicine: '—',
+    note: '精神好，食欲正常',
+  },
+  {
+    date: '20260508',
     temp: '36.6°C',
     tempClass: 'good',
     summary: '已好转',
@@ -90,6 +86,8 @@ const dailyRecords: DailyRecord[] = [
 ]
 
 function App() {
+  const recordDates = dailyRecords.map((record) => record.date)
+
   return (
     <main className="page">
       <section className="profile-card card">
@@ -100,60 +98,7 @@ function App() {
         </div>
       </section>
 
-      <section className="calendar-card card">
-        <div className="calendar-header">
-          <button type="button" className="calendar-nav" aria-label="上一月">
-            ‹
-          </button>
-          <span className="calendar-month">2024年5月</span>
-          <button type="button" className="calendar-nav" aria-label="下一月">
-            ›
-          </button>
-        </div>
-
-        <div className="calendar-weekdays">
-          {['日', '一', '二', '三', '四', '五', '六'].map((w) => (
-            <span key={w} className="weekday">
-              {w}
-            </span>
-          ))}
-        </div>
-
-        <div className="calendar-grid">
-          {calendarDays.map((item, index) => (
-            <div
-              key={index}
-              className={[
-                'calendar-cell',
-                item.empty && 'empty',
-                item.sick && 'sick',
-                item.rangeStart && 'range-start',
-                item.rangeEnd && 'range-end',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              {!item.empty && (
-                <>
-                  <span className="day-num">{item.day}</span>
-                  {item.sick && <span className="day-dot" />}
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div className="calendar-legend">
-          <div className="legend-item">
-            <span className="legend-icon sick" />
-            <span>生病中/有记录的日期</span>
-          </div>
-          <div className="legend-item">
-            <span className="legend-icon normal" />
-            <span>未记录</span>
-          </div>
-        </div>
-      </section>
+      <CalendarCard recordDates={recordDates} />
 
       <section className="section-block">
         <h2 className="section-title">病程记录</h2>
@@ -194,7 +139,7 @@ function App() {
           {dailyRecords.map((record) => (
             <div key={record.date} className="timeline-item">
               <div className="timeline-node" />
-              <div className="timeline-date">{record.date}</div>
+              <div className="timeline-date">{formatRecordDate(record.date)}</div>
               <div className="daily-card">
                 <div className="daily-card-head">
                   <span className={`daily-summary ${record.summaryClass}`}>

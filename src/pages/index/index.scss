@@ -2,7 +2,6 @@
 
 $blue: #5b8ff9;
 $blue-light: #e8f2ff;
-$blue-soft: #d6ebff;
 $orange: #ff9500;
 $green: #34c759;
 $gray: #8e8e93;
@@ -24,6 +23,9 @@ body {
 
 .page {
   padding: 16px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .card {
@@ -61,129 +63,6 @@ body {
   margin-top: 4px;
   font-size: 13px;
   color: $gray;
-}
-
-.calendar-card {
-  padding: 16px 12px 14px;
-}
-
-.calendar-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-  padding: 0 4px;
-}
-
-.calendar-month {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.calendar-nav {
-  width: 32px;
-  height: 32px;
-  color: $gray;
-  font-size: 22px;
-  line-height: 1;
-}
-
-.calendar-weekdays {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  margin-bottom: 8px;
-
-  .weekday {
-    text-align: center;
-    font-size: 12px;
-    color: $gray;
-    padding: 4px 0;
-  }
-}
-
-.calendar-grid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 2px 0;
-}
-
-.calendar-cell {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  font-size: 15px;
-
-  &.empty {
-    visibility: hidden;
-  }
-
-  &.sick {
-    background: $blue-soft;
-
-    &.range-start {
-      border-radius: 20px 0 0 20px;
-      margin-left: 2px;
-    }
-
-    &.range-end {
-      border-radius: 0 20px 20px 0;
-      margin-right: 2px;
-    }
-
-    &:not(.range-start):not(.range-end) {
-      border-radius: 0;
-    }
-  }
-
-  .day-num {
-    line-height: 1.2;
-    font-weight: 500;
-  }
-
-  .day-dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: $blue;
-    margin-top: 3px;
-  }
-}
-
-.calendar-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid #f0f0f0;
-}
-
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: $text-secondary;
-}
-
-.legend-icon {
-  width: 18px;
-  height: 10px;
-  border-radius: 5px;
-
-  &.sick {
-    background: $blue-soft;
-  }
-
-  &.normal {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #e5e5ea;
-  }
 }
 
 .section-block {
