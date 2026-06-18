@@ -10,3 +10,10 @@ export interface DailyRecord {
   medicine: string
   note: string
 }
+
+export interface RecordFormValues {
+  recordTime: Date
+  description: string
+  temperature: number
+  medicine: string
+}

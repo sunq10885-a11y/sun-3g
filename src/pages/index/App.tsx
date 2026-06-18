@@ -1,5 +1,8 @@
+import { useEffect, useState } from 'react'
+import { getCourses, type Course } from '../../api/courses'
 import { CalendarCard } from './components/CalendarCard'
-import type { DailyRecord } from './types'
+import { RecordFormPopup } from './components/RecordFormPopup'
+import type { DailyRecord, RecordFormValues } from './types'
 import { formatRecordDate } from './utils/date'
 
 const dailyRecords: DailyRecord[] = [
@@ -87,6 +90,24 @@ const dailyRecords: DailyRecord[] = [
 
 function App() {
   const recordDates = dailyRecords.map((record) => record.date)
+  const [courses, setCourses] = useState<Course[]>([])
+  const [coursesError, setCoursesError] = useState('')
+  const [recordPopupVisible, setRecordPopupVisible] = useState(false)
+
+  useEffect(() => {
+    getCourses()
+      .then((response) => {
+        setCourses(response.data)
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof Error ? error.message : '课程列表加载失败'
+        setCoursesError(message)
+      })
+  }, [])
+
+  const handleRecordSubmit = (values: RecordFormValues) => {
+    console.log('新建记录', values)
+  }
 
   return (
     <main className="page">
@@ -99,6 +120,20 @@ function App() {
       </section>
 
       <CalendarCard recordDates={recordDates} />
+
+      <button
+        type="button"
+        className="create-record-btn"
+        onClick={() => setRecordPopupVisible(true)}
+      >
+        + 新建记录
+      </button>
+
+      <RecordFormPopup
+        visible={recordPopupVisible}
+        onClose={() => setRecordPopupVisible(false)}
+        onSubmit={handleRecordSubmit}
+      />
 
       <section className="section-block">
         <h2 className="section-title">病程记录</h2>
