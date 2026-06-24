@@ -7,13 +7,7 @@ import {
   TextArea,
   type PickerOption,
 } from '@nutui/nutui-react'
-import '@nutui/nutui-react/dist/es/packages/button/style/css'
-import '@nutui/nutui-react/dist/es/packages/cell/style/css'
-import '@nutui/nutui-react/dist/es/packages/datepicker/style/css'
-import '@nutui/nutui-react/dist/es/packages/form/style/css'
-import '@nutui/nutui-react/dist/es/packages/input/style/css'
-import '@nutui/nutui-react/dist/es/packages/popup/style/css'
-import '@nutui/nutui-react/dist/es/packages/textarea/style/css'
+import '@nutui/nutui-react/dist/style.css'
 import { useEffect, useState } from 'react'
 import type { RecordFormValues } from '../../types'
 import { formatDateTime } from '../../utils/recordForm'
@@ -25,16 +19,11 @@ interface RecordFormPopupProps {
   onSubmit: (values: RecordFormValues) => void
 }
 
-interface DatePickerRef {
-  open: () => void
-  close: () => void
-}
-
 export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFormPopupProps) {
   const [form] = Form.useForm()
 
   const [dateShow, setDateShow] = useState(false)
-  const [time, setTime] = useState(new Date())
+  const [time, setTime] = useState(formatDateTime(new Date()))
 
   const formatter = (type: string, option: PickerOption) => {
     switch (type) {
@@ -71,7 +60,7 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
   }
 
   const handleFinish = (values: RecordFormValues) => {
-    onSubmit(values)
+    onSubmit(Object.assign(values, { recordTime: time }))
     form.resetFields()
     onClose()
   }
@@ -79,7 +68,7 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
   const confirmTime = (values: (string | number)[]) => {
     const date = values.slice(0, 3).join('-')
     const time1 = values.slice(3).join(':')
-    setTime(new Date(`${date} ${time1}`))
+    setTime(`${date} ${time1}`)
   }
 
   const openDate = () => {
@@ -105,11 +94,11 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
           onFinish={handleFinish}
           initialValues={{
             description: '',
-            medicine: '',
+            medication: '',
           }}
         >
           <Form.Item label="时间" name="recordTime">
-            <span onClick={openDate}>{formatDateTime(time)}</span>
+            <span onClick={openDate}>{time}</span>
           </Form.Item>
 
           <Form.Item
@@ -124,7 +113,7 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
             <Input type="digit" placeholder="请输入体温" />
           </Form.Item>
 
-          <Form.Item label="用药" name="medicine">
+          <Form.Item label="用药" name="medication">
             <TextArea placeholder="请输入用药信息" rows={3} maxLength={200} showCount />
           </Form.Item>
         </Form>
@@ -136,7 +125,7 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
         startDate={new Date(2025, 0, 1)}
         endDate={new Date(2026, 10, 1)}
         visible={dateShow}
-        defaultValue={time}
+        defaultValue={new Date()}
         formatter={formatter}
         onClose={() => setDateShow(false)}
         onConfirm={(options, values) => confirmTime(values)}

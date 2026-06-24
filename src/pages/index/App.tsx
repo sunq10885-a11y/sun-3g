@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCourses, type Course } from '../../api/courses'
+import { createRecord, getHealthRecords, type Record } from './api/record'
 import { CalendarCard } from './components/CalendarCard'
 import { RecordFormPopup } from './components/RecordFormPopup'
 import type { DailyRecord, RecordFormValues } from './types'
@@ -90,23 +90,24 @@ const dailyRecords: DailyRecord[] = [
 
 function App() {
   const recordDates = dailyRecords.map((record) => record.date)
-  const [courses, setCourses] = useState<Course[]>([])
-  const [coursesError, setCoursesError] = useState('')
+  const [record, setRecord] = useState<Record[]>([])
+  const [recordError, setRecordError] = useState('')
   const [recordPopupVisible, setRecordPopupVisible] = useState(false)
 
   useEffect(() => {
-    getCourses()
-      .then((response) => {
-        setCourses(response.data)
+    getHealthRecords()
+      .then((response: any) => {
+        setRecord(response.data)
       })
       .catch((error: unknown) => {
         const message = error instanceof Error ? error.message : '课程列表加载失败'
-        setCoursesError(message)
+        setRecordError(message)
       })
   }, [])
 
   const handleRecordSubmit = (values: RecordFormValues) => {
     console.log('新建记录', values)
+    createRecord(values)
   }
 
   return (

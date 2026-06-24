@@ -1,4 +1,3 @@
-import { ConfigProvider } from '@nutui/nutui-react'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import '../../styles/common.scss'
@@ -13,13 +12,6 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <ConfigProvider
-      theme={{
-        nutuiColorPrimary: '#2563eb',
-        nutuiFormItemRequiredColor: '#ff0f23',
-      }}
-    >
-      <App />
-    </ConfigProvider>
+    <App />
   </StrictMode>
 )
