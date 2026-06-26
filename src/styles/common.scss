@@ -1,15 +1,5 @@
 @use './variables' as *;
 
-:root {
-  --text: #{$color-text};
-  --text-h: #{$color-text-h};
-  --bg: #{$color-bg};
-  --card: #{$color-card};
-  --border: #{$color-border};
-  --accent: #{$color-accent};
-  --accent-hover: #{$color-accent-hover};
-}
-
 * {
   box-sizing: border-box;
 }

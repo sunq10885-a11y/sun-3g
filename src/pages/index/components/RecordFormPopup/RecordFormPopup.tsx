@@ -9,17 +9,25 @@ import {
 } from '@nutui/nutui-react'
 import '@nutui/nutui-react/dist/style.css'
 import { useEffect, useState } from 'react'
-import type { RecordFormValues } from '../../types'
+import type { HealthRecord } from '../../types'
 import { formatDateTime } from '../../utils/recordForm'
 import './RecordFormPopup.scss'
 
 interface RecordFormPopupProps {
   visible: boolean
+  item: any
   onClose: () => void
-  onSubmit: (values: RecordFormValues) => void
+  onSubmit: (values: HealthRecord) => void
+  onDelete: (id: number) => void
 }
 
-export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFormPopupProps) {
+export default function RecordFormPopup({
+  visible,
+  item,
+  onClose,
+  onSubmit,
+  onDelete,
+}: RecordFormPopupProps) {
   const [form] = Form.useForm()
 
   const [dateShow, setDateShow] = useState(false)
@@ -51,15 +59,27 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
   useEffect(() => {
     if (!visible) {
       form.resetFields()
+    } else {
+      if (item.recordTime) {
+        setTime(item.recordTime)
+      } else {
+        setTime(formatDateTime(new Date()))
+      }
+      console.log(item)
+      form.setFieldsValue({
+        description: item.description || '',
+        temperature: item.temperature || undefined,
+        medication: item.medication || '',
+      })
     }
-  }, [visible, form])
+  }, [visible, item])
 
   const handleCancel = () => {
     form.resetFields()
     onClose()
   }
 
-  const handleFinish = (values: RecordFormValues) => {
+  const handleFinish = (values: HealthRecord) => {
     onSubmit(Object.assign(values, { recordTime: time }))
     form.resetFields()
     onClose()
@@ -74,29 +94,30 @@ export default function RecordFormPopup({ visible, onClose, onSubmit }: RecordFo
   const openDate = () => {
     setDateShow(true)
   }
+  const delteInfo = () => {
+    onDelete(item.id)
+  }
 
   return (
     <Popup
       visible={visible}
       position="bottom"
       round
-      closeable={false}
-      closeOnOverlayClick={false}
+      closeable={true}
+      left={
+        item.id ? (
+          <div className="delete-text" onClick={delteInfo}>
+            删除
+          </div>
+        ) : null
+      }
       title="新建记录"
       className="record-form-popup"
       style={{ maxHeight: '72%' }}
       onClose={handleCancel}
     >
       <div className="record-form-popup__body">
-        <Form
-          form={form}
-          labelPosition="top"
-          onFinish={handleFinish}
-          initialValues={{
-            description: '',
-            medication: '',
-          }}
-        >
+        <Form form={form} labelPosition="top" onFinish={handleFinish}>
           <Form.Item label="时间" name="recordTime">
             <span onClick={openDate}>{time}</span>
           </Form.Item>

@@ -1,19 +1,8 @@
-export type StatusClass = 'warn' | 'good'
-
-export interface DailyRecord {
-  date: string
-  temp: string
-  tempClass: StatusClass
-  summary: string
-  summaryClass: StatusClass
-  symptoms: string
-  medicine: string
-  note: string
-}
-
-export interface RecordFormValues {
-  recordTime: Date
+export interface HealthRecord {
+  id?: number | string
+  recordTime: string
   description: string
-  temperature: number
-  medicine: string
+  temperature: number | null | undefined
+  medication: string
+  symptom?: String
 }

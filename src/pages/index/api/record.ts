@@ -1,17 +1,14 @@
 import request from '../../../api/request'
-
-export interface Record {
-  id?: number | string
-  record_time?: string
-  description: string
-  temperature: number
-  medication: string
-}
+import type { HealthRecord } from '../types'
 
 export function getHealthRecords() {
   return request.get('/healthRecords')
 }
 
-export function createRecord(param: Record) {
+export function createRecord(param: HealthRecord) {
   return request.post('/healthRecords', param)
+}
+
+export function deleteRecord(id: number) {
+  return request.post('/healthRecords/delete', { id })
 }
